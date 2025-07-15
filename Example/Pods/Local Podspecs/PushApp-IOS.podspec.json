@@ -1,0 +1,22 @@
+{
+  "name": "PushApp-IOS",
+  "version": "0.1.0",
+  "summary": "A short description of PushApp-IOS.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/ninjabase8085/PushApp-IOS",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "ninjabase8085": "pranjal.3vyas@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/ninjabase8085/PushApp-IOS.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "PushApp-IOS/Classes/**/*"
+}

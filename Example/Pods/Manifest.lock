@@ -1,0 +1,16 @@
+PODS:
+  - PushApp-IOS (0.1.0)
+
+DEPENDENCIES:
+  - PushApp-IOS (from `../`)
+
+EXTERNAL SOURCES:
+  PushApp-IOS:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  PushApp-IOS: cc7cc0a8315c882ddc3cf9cac62242ec4a731535
+
+PODFILE CHECKSUM: e943c6e604a6985a81550887113f4a6c4f0e8ae7
+
+COCOAPODS: 1.16.2

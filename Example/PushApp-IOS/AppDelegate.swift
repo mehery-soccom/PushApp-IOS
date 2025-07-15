@@ -1,46 +1,105 @@
-//
-//  AppDelegate.swift
-//  PushApp-IOS
-//
-//  Created by ninjabase8085 on 07/15/2025.
-//  Copyright (c) 2025 ninjabase8085. All rights reserved.
-//
-
 import UIKit
+import ActivityKit
+import UserNotifications
+import PushApp_IOS
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-    var window: UIWindow?
-
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        UNUserNotificationCenter.current().delegate = self
+        
+        // Request notification authorization
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            print(granted ? "Push notifications granted" : "Push notifications denied")
+        }
+                
+        UIApplication.shared.registerForRemoteNotifications()
         return true
     }
+    
+    @available(iOS 16.1, *)
+        func startLiveActivity(userInfo: [AnyHashable: Any]) {
+            // Parse your userInfo into your activity state
+            // Example placeholder attributes & content state — adapt this to your model
+            let state = DeliveryActivityAttributes.ContentState(
+                message1: userInfo["message1"] as? String ?? "",
+                message2: userInfo["message2"] as? String ?? "",
+                message3: userInfo["message3"] as? String ?? "",
+                message1FontSize: userInfo["message1FontSize"] as? Double ?? 14,
+                message1FontColorHex: userInfo["message1FontColorHex"] as? String ?? "#000000",
+                line1_font_text_styles: userInfo["line1_font_text_styles"] as? [String] ?? [],
+                message2FontSize: userInfo["message2FontSize"] as? Double ?? 14,
+                message2FontColorHex: userInfo["message2FontColorHex"] as? String ?? "#000000",
+                line2_font_text_styles: userInfo["line2_font_text_styles"] as? [String] ?? [],
+                message3FontSize: userInfo["message3FontSize"] as? Double ?? 14,
+                message3FontColorHex: userInfo["message3FontColorHex"] as? String ?? "#000000",
+                line3_font_text_styles: userInfo["line3_font_text_styles"] as? [String] ?? [],
+                backgroundColorHex: userInfo["backgroundColorHex"] as? String ?? "#FFFFFF",
+                fontColorHex: userInfo["fontColorHex"] as? String ?? "#000000",
+                progressColorHex: userInfo["progressColorHex"] as? String ?? "#0000FF",
+                fontSize: userInfo["fontSize"] as? Double ?? 14,
+                progressPercent: userInfo["progressPercent"] as? Double ?? 0,
+                align: userInfo["align"] as? String ?? "left",
+                bg_color_gradient: userInfo["bg_color_gradient"] as? String ?? "",
+                bg_color_gradient_dir: userInfo["bg_color_gradient_dir"] as? String ?? ""
+            )
 
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+            do {
+                let activity = try Activity<DeliveryActivityAttributes>.request(
+                    attributes: DeliveryActivityAttributes(),
+                    contentState: state,
+                    pushType: .token
+                )
+                print("Started Live Activity: \(activity.id)")
+                
+                Task {
+                    for await tokenData in activity.pushTokenUpdates {
+                        let pushToken = tokenData.map { String(format: "%02x", $0) }.joined()
+                        print("Live Activity Push Token: \(pushToken)")
+                        // Here you can send the token to your server or callback
+                    }
+                }
+            } catch {
+                print("Live Activity start error: \(error)")
+            }
+        }
+        
+        func application(_ application: UIApplication,
+                         didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                         fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+            print("Received silent push:", userInfo)
+
+            if #available(iOS 16.1, *) {
+                startLiveActivity(userInfo: userInfo)
+            }
+
+            completionHandler(.newData)
+        }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let id = response.notification.request.identifier
+        print("Received notification with ID = \(id)")
+
+        completionHandler()
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        PushApp.shared.handleDeviceToken(deviceToken)
     }
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for remote notifications: \(error)")
     }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    // Called when a notification is delivered to a foreground app
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // Show banner, sound, badge even if app is active
+        print("Test")
+        completionHandler([.banner, .badge, .sound, .list])
     }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-
 }
-

@@ -1,0 +1,6 @@
+framework module PushApp_IOS {
+  umbrella header "PushApp-IOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
