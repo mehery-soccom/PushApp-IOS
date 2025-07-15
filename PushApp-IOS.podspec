@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PushApp-IOS'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'Push and in-app notification SDK for iOS apps.'
   s.description      = 'Provides Firebase/APNs token registration, in-app rule engine handling, and custom in-app rendering using SwiftUI/WebKit.'
   s.homepage         = 'https://github.com/ninjabase8085/PushApp-IOS'
