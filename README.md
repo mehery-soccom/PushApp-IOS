@@ -1,29 +1,79 @@
-# PushApp-IOS
+# PushApp iOS SDK
 
-[![CI Status](https://img.shields.io/travis/ninjabase8085/PushApp-IOS.svg?style=flat)](https://travis-ci.org/ninjabase8085/PushApp-IOS)
-[![Version](https://img.shields.io/cocoapods/v/PushApp-IOS.svg?style=flat)](https://cocoapods.org/pods/PushApp-IOS)
-[![License](https://img.shields.io/cocoapods/l/PushApp-IOS.svg?style=flat)](https://cocoapods.org/pods/PushApp-IOS)
-[![Platform](https://img.shields.io/cocoapods/p/PushApp-IOS.svg?style=flat)](https://cocoapods.org/pods/PushApp-IOS)
+PushApp SDK enables easy integration of push notifications, in-app notifications, event tracking, and live activity support in your iOS apps.
 
-## Example
+---
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+## Features
 
-## Requirements
+- Device registration and token management
+- User login and session handling
+- Event tracking with custom event data
+- WebSocket-based in-app notification display (popup, banner, PiP)
+- Route-based tracking for user navigation
+- Live Activity support for iOS 16.2+ (via separate widget)
+
+---
 
 ## Installation
 
-PushApp-IOS is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+Add the SDK to your project using Swift Package Manager or CocoaPods.
 
-```ruby
-pod 'PushApp-IOS'
+---
+
+## Initialization
+
+Initialize the SDK with your tenant and channel identifier:
+
+```swift
+PushApp.shared.initialize(identifier: "tenant$channelId")
 ```
 
-## Author
+## Handling Device Token
+Pass the APNs device token to the SDK:
 
-ninjabase8085, pranjal.3vyas@gmail.com
+```swift
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    PushApp.shared.handleDeviceToken(deviceToken)
+}
+```
 
-## License
+## User Login
+Register user login for session tracking:
 
-PushApp-IOS is available under the MIT license. See the LICENSE file for more info.
+```swift
+PushApp.shared.login(userId: "user123")
+```
+
+## Sending Custom Events
+Send custom events with data:
+
+```swift
+PushApp.shared.sendEvent(eventName: "button_click", eventData: ["button": "subscribe"])
+```
+
+## Page Tracking
+
+The SDK automatically tracks page navigation changes to help you analyze user behavior across different screens. Ensure you call the following method whenever the user navigates to a new screen:
+
+```swift
+PushApp.shared.sendEvent(eventName: "page_view", eventData: ["page_name": "HomeScreen"])
+```
+Replace "HomeScreen" with the actual screen or route name.
+This helps you monitor which pages users visit and in what sequence, enabling better targeting and analytics.
+
+## In-App Notifications
+The SDK handles displaying in-app notifications received via WebSocket or polling automatically.
+Just make sure the page tracking is enabled for the page where in app notification is to be displayed
+
+## Live Activity Integration
+For Live Activity support, please follow the instructions in the [LiveActivity](LiveActivity.md) document.
+Info.plist & Capabilities
+Add Push Notifications capability.
+Add Background Modes with Remote Notifications.
+Configure any other permissions as needed (see [LiveActivity](LiveActivity.md) for details).
+
+## Support & Documentation
+For API details, advanced configuration, and push notification handling, refer to the official PushApp API documentation.
+
+If you encounter any issues or have questions, please reach out!
