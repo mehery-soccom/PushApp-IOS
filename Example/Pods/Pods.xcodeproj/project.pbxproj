@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,7 +16,6 @@
 		B0C28D60EA2396D67A4D05E3A6EDA3FB /* Pods-PushApp-IOS_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F77289D63BAB18E0C07C7A1C00EFD792 /* Pods-PushApp-IOS_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C962D390809376D50DFD2B49DFB52BBC /* Pods-PushApp-IOS_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A9A7DCC27FDE0CC263837831238665 /* Pods-PushApp-IOS_Example-dummy.m */; };
 		D80727663FBC68548BB5C3A4C399BE15 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
-		F9AB3C1E2E26085600F9D6F1 /* PushApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AB3C1D2E26085600F9D6F1 /* PushApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,12 +64,15 @@
 		D5542D14F85B77DEABC6917596225351 /* PushApp-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "PushApp-IOS.debug.xcconfig"; sourceTree = "<group>"; };
 		D8F0B31D214452A438FABE1ED4FCDE4C /* PushApp-IOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "PushApp-IOS.modulemap"; sourceTree = "<group>"; };
 		EA0FD8EB3EFDB4D8BAE661FE4050FD8F /* PushApp_IOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PushApp_IOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA74C816917938603C5859588A3689A0 /* PushApp-IOS.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = "PushApp-IOS.podspec"; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		EA74C816917938603C5859588A3689A0 /* PushApp-IOS.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = "PushApp-IOS.podspec"; sourceTree = "<group>"; tabWidth = 2; };
 		F64C2205D430CF510EED50F293B71568 /* Pods-PushApp-IOS_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PushApp-IOS_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		F77289D63BAB18E0C07C7A1C00EFD792 /* Pods-PushApp-IOS_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PushApp-IOS_Example-umbrella.h"; sourceTree = "<group>"; };
 		F8B47036FC49F01073FFEA627A15DB7C /* PushApp-IOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "PushApp-IOS-Info.plist"; sourceTree = "<group>"; };
-		F9AB3C1D2E26085600F9D6F1 /* PushApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		F9AB3C552E2615BE00F9D6F1 /* Classes */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Classes; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		9CDFE336537313F96B45F3776FA4B932 /* Frameworks */ = {
@@ -103,7 +105,7 @@
 		3480775800EF6A2A85AE6B57326056B3 /* PushApp-IOS */ = {
 			isa = PBXGroup;
 			children = (
-				F9AB3C1D2E26085600F9D6F1 /* PushApp.swift */,
+				F9AB3C552E2615BE00F9D6F1 /* Classes */,
 				7251C4F83CD64CAC1A4A215F206F3D6F /* Pod */,
 				D194EB434778CFC3BA3BE2669BEB65DA /* Support Files */,
 			);
@@ -266,6 +268,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				F9AB3C552E2615BE00F9D6F1 /* Classes */,
+			);
 			name = "PushApp-IOS";
 			productName = PushApp_IOS;
 			productReference = EA0FD8EB3EFDB4D8BAE661FE4050FD8F /* PushApp_IOS.framework */;
@@ -368,7 +373,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BFCD7060FC39270D4A6267E035ADB67 /* PushApp-IOS-dummy.m in Sources */,
-				F9AB3C1E2E26085600F9D6F1 /* PushApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,7 +429,11 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-PushApp-IOS_Tests/Pods-PushApp-IOS_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-PushApp-IOS_Tests/Pods-PushApp-IOS_Tests.modulemap";
 				OTHER_LDFLAGS = "";
@@ -461,7 +469,11 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-PushApp-IOS_Tests/Pods-PushApp-IOS_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-PushApp-IOS_Tests/Pods-PushApp-IOS_Tests.modulemap";
 				OTHER_LDFLAGS = "";
@@ -496,7 +508,11 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-PushApp-IOS_Example/Pods-PushApp-IOS_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-PushApp-IOS_Example/Pods-PushApp-IOS_Example.modulemap";
 				OTHER_LDFLAGS = "";
@@ -532,7 +548,11 @@
 				INFOPLIST_FILE = "Target Support Files/PushApp-IOS/PushApp-IOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/PushApp-IOS/PushApp-IOS.modulemap";
 				PRODUCT_MODULE_NAME = PushApp_IOS;
 				PRODUCT_NAME = PushApp_IOS;
@@ -602,7 +622,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
@@ -628,7 +649,11 @@
 				INFOPLIST_FILE = "Target Support Files/PushApp-IOS/PushApp-IOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/PushApp-IOS/PushApp-IOS.modulemap";
 				PRODUCT_MODULE_NAME = PushApp_IOS;
 				PRODUCT_NAME = PushApp_IOS;
@@ -663,7 +688,11 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-PushApp-IOS_Example/Pods-PushApp-IOS_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-PushApp-IOS_Example/Pods-PushApp-IOS_Example.modulemap";
 				OTHER_LDFLAGS = "";

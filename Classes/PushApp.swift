@@ -38,14 +38,13 @@ public class PushApp: NSObject {
             print("Invalid identifier format")
         }
         
-//        if sandbox {
-//            // sandbox: tenant.mehery.com
-//            self.serverUrl = "https://\(self.tenant).mehery.com"
-//        } else {
-//            // production: tenant.mehery.com/pushapp
-//            self.serverUrl = "https://\(self.tenant).mehery.com"
-//        }
-        self.serverUrl = "https://d7b9733c4d6b.ngrok-free.app"
+        if sandbox {
+            // sandbox: tenant.mehery.com
+            self.serverUrl = "https://\(self.tenant).mehery.com"
+        } else {
+            // production: tenant.mehery.com/pushapp
+            self.serverUrl = "https://\(self.tenant).mehery.com"
+        }
         print("Server URL set to: \(self.serverUrl)")
 
         self.inAppDisplay = InAppDisplay(context: context)
@@ -97,11 +96,15 @@ public class PushApp: NSObject {
                 print("Token send failed: \(error?.localizedDescription ?? "No error info")")
                 return
             }
-            if let responseDict = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let device = responseDict!["device"] as? [String: Any],
-               let guest = device["user_id"] as? String {
-                self.guestId = guest
-                self.sendEvent(eventName: "app_open", eventData: [:])
+            do {
+                if let responseDict = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let device = responseDict["device"] as? [String: Any],
+                   let guest = device["user_id"] as? String {
+                    self.guestId = guest
+                    self.sendEvent(eventName: "app_open", eventData: [:])
+                }
+            } catch {
+                print("Token send JSON parse error: \(error)")
             }
         }.resume()
     }
@@ -176,12 +179,17 @@ public class PushApp: NSObject {
 
         URLSession.shared.dataTask(with: request) { data, _, _ in
             guard let data = data else { return }
-            if let response = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let success = response!["success"] as? Bool, success,
-               let notificationData = response!["data"] as? [String: Any] {
-                DispatchQueue.main.async {
-                    self.inAppDisplay?.showInApp(from: notificationData)
+
+            do {
+                if let response = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let success = response["success"] as? Bool, success,
+                   let notificationData = response["data"] as? [String: Any] {
+                    DispatchQueue.main.async {
+                        self.inAppDisplay?.showInApp(from: notificationData)
+                    }
                 }
+            } catch {
+                print("Error parsing pollForInApp response: \(error)")
             }
         }.resume()
     }
@@ -235,22 +243,21 @@ public class PushApp: NSObject {
 
 // MARK: - WebSocketManager
 
-@available(iOS 15.2, *)
+@available(iOS 13.0, *)
 class WebSocketManager: NSObject {
     private let userId: String
     private let onMessage: ([String: Any]) -> Void
     private var webSocketTask: URLSessionWebSocketTask?
-    
-//    private var url: URL {
-//        let baseUrl: String
-//        if PushApp.shared.sandbox {
-//            baseUrl = "https://\(PushApp.shared.tenant).mehery.com"
-//        } else {
-//            baseUrl = "https://\(PushApp.shared.tenant).mehery.com"
-//        }
-//        return URL(string: baseUrl.replacingOccurrences(of: "https", with: "wss") + "/pushapp")!
-//    }
-    private var url = URL(string: "wss://d7b9733c4d6b.ngrok-free.app/pushapp")!
+    @available(iOS 15.2, *)
+    private var url: URL {
+        let baseUrl: String
+        if PushApp.shared.sandbox {
+            baseUrl = "https://\(PushApp.shared.tenant).mehery.com"
+        } else {
+            baseUrl = "https://\(PushApp.shared.tenant).mehery.com"
+        }
+        return URL(string: baseUrl.replacingOccurrences(of: "https", with: "wss") + "/pushapp")!
+    }
 
     init(userId: String, onMessage: @escaping ([String: Any]) -> Void) {
         self.userId = userId
@@ -329,7 +336,7 @@ class WebSocketManager: NSObject {
 
 }
 
-@available(iOS 15.2, *)
+@available(iOS 13.0, *)
 extension WebSocketManager: URLSessionWebSocketDelegate {
     func urlSession(_ session: URLSession,
                     webSocketTask: URLSessionWebSocketTask,
