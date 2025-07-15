@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'PushApp-IOS_Example' do
+  pod 'PushApp-IOS', :path => '../'
+
+  target 'PushApp-IOS_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
