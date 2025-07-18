@@ -17,9 +17,9 @@ PushApp SDK enables easy integration of push notifications, in-app notifications
 ## Installation
 
 Add the SDK to your project using CocoaPods.
-'''ruby
+```ruby
 pod 'PushApp-IOS'
-'''
+```
 ---
 
 ## Initialization
