@@ -1,7 +1,6 @@
 # PushApp iOS SDK
 
 PushApp SDK enables easy integration of push notifications, in-app notifications, event tracking, and live activity support in your iOS apps.
-
 ---
 
 ## Features
@@ -17,8 +16,10 @@ PushApp SDK enables easy integration of push notifications, in-app notifications
 
 ## Installation
 
-Add the SDK to your project using Swift Package Manager or CocoaPods.
-
+Add the SDK to your project using CocoaPods.
+'''ruby
+pod 'PushApp-IOS'
+'''
 ---
 
 ## Initialization
